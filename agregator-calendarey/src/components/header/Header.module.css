@@ -2,3 +2,11 @@
     grid-area: h;
     background-color: red;
 }
+.header img {
+    text-align: left;
+    width: 77px;
+}
+.TXTcenter {
+    text-align: center;
+    font-size: 25px;
+}

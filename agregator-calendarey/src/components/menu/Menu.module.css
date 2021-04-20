@@ -1,4 +1,26 @@
 .menu {
-    grid-area: n;
-    background-color:blanchedalmond;
+  grid-area: n;
+  background-color: blanchedalmond;
+  text-align: left;
+  padding: 20px;
+}
+
+.item a {
+  color: purple;
+  text-decoration: none;
+}
+
+.item a.activeLink {
+  color: blue;
+}
+
+.indentCustomization {
+  margin-top: 10px;
+}
+
+.indentFriendsBlock {
+  margin-top: 20px;
+}
+.viborServisa {
+  padding-bottom: 10px;
 }
