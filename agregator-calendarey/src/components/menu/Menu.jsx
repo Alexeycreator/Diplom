@@ -1,6 +1,7 @@
 import React from "react";
 import s from "./Menu.module.css";
 import { NavLink } from "react-router-dom";
+import AddSobitieCalendar from "../addSobitie/AddSobitie";
 
 const Menu = (props) => {
   return (
@@ -31,6 +32,7 @@ const Menu = (props) => {
           Агрегатор Календарей
         </NavLink>
       </div>
+        <AddSobitieCalendar />
     </nav>
   );
 };

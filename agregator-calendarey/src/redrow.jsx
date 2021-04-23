@@ -5,7 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 
-export let redrowPage = (basis) => {
+export let redrowPage = (props) => {
   ReactDOM.render(
     <React.StrictMode>
       <BrowserRouter>

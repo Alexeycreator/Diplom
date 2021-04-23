@@ -19,13 +19,24 @@ const DayGrid = styled.div`
   margin: 2px;
 `;
 
+//эффект календаря
+const ShadowWrapper = styled("div")`
+  border-top: 1px solid #737374;
+  border-left: 1px solid #464648;
+  border-right: 1px solid #464648;
+  border-bottom: 2px solid #464648;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px #1a1a1a, 0 8px 20px 6px #888;
+`;
+
 //элемент календаря
 const ItemGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   grid-gap: 1px;
   background-color: ${(props) => (props.isHeader ? "black" : "gray")};
-  ${(props) => props.isHeader && "border-bottom: 1px solid white"}
+  ${(props) => props.isHeader && "border-bottom: 1px solid white"};
 `;
 
 //сетка календаря
@@ -55,7 +66,13 @@ const CurrentDay = styled.div`
   justify-content: center;
 `;
 
-const GoogleCalendar = ({ today, prevMath, nextMath, todayInMath, startDay }) => {
+const GoogleCalendar = ({
+  today,
+  prevMath,
+  nextMath,
+  todayInMath,
+  startDay,
+}) => {
   const day = startDay.clone().subtract(1, "day");
   const totalDay = 42; //всего дней в календаре
   const daysArray = [...Array(42)].map(() => day.add(1, "day").clone()); //массив для элементов в календаре с расчетом на 6 недель
@@ -66,44 +83,46 @@ const GoogleCalendar = ({ today, prevMath, nextMath, todayInMath, startDay }) =>
 
   return (
     <>
-      <HeaderCalendar />
-      <MonitorCalendar
-        today={today}
-        prevMath={prevMath}
-        nextMath={nextMath}
-        todayInMath={todayInMath}
-      />
-      <ItemGrid isHeader>
-        {[
-          ...Array(7).map((_, i) => (
-            <CellGrid isHeader isSelectMonth>
-              <RowInCell justifyContent={"flex-end"} pr={i}>
-                {moment()
-                  .day(i + 1)
-                  .format("ddd")}
+      <ShadowWrapper>
+        <HeaderCalendar />
+        <MonitorCalendar
+          today={today}
+          prevMath={prevMath}
+          nextMath={nextMath}
+          todayInMath={todayInMath}
+        />
+        <ItemGrid isHeader>
+          {[
+            ...Array(7).map((_, i) => (
+              <CellGrid isHeader isSelectMonth>
+                <RowInCell justifyContent={"flex-end"} pr={i}>
+                  {moment()
+                    .day(i + 1)
+                    .format("ddd")}
+                </RowInCell>
+              </CellGrid>
+            )),
+          ]}
+        </ItemGrid>
+        <ItemGrid>
+          {daysArray.map((dayItem) => (
+            <CellGrid
+              key={(dayItem.format("DDMMYYYY"), dayItem.unix())}
+              isWeekend={dayItem.day() === 6 || dayItem.day() === 0}
+              isSelectMonth={isSelectMonth(dayItem)}
+            >
+              <RowInCell justifyContent={"flex-end"}>
+                <DayGrid>
+                  {!isCurrentDay(dayItem) && dayItem.format("D")}
+                  {isCurrentDay(dayItem) && (
+                    <CurrentDay>{dayItem.format("D")}</CurrentDay>
+                  )}
+                </DayGrid>
               </RowInCell>
             </CellGrid>
-          )),
-        ]}
-      </ItemGrid>
-      <ItemGrid>
-        {daysArray.map((dayItem) => (
-          <CellGrid
-            key={(dayItem.format("DDMMYYYY"), dayItem.unix())}
-            isWeekend={dayItem.day() === 6 || dayItem.day() === 0}
-            isSelectMonth={isSelectMonth(dayItem)}
-          >
-            <RowInCell justifyContent={"flex-end"}>
-              <DayGrid>
-                {!isCurrentDay(dayItem) && dayItem.format("D")}
-                {isCurrentDay(dayItem) && (
-                  <CurrentDay>{dayItem.format("D")}</CurrentDay>
-                )}
-              </DayGrid>
-            </RowInCell>
-          </CellGrid>
-        ))}
-      </ItemGrid>
+          ))}
+        </ItemGrid>
+      </ShadowWrapper>
     </>
   );
 };
